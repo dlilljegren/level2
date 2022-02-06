@@ -181,7 +181,21 @@ public abstract class AbstractLevel2ViewTester
     public void trade(Level2View.Side side){
         String s = side==ASK ? "A" :"B";
         var underTest = createUnderTest();
+        //Add order id=10
+        parse(format("N#%s:1.00:1000:10",s)).actOn(underTest);
 
+        //Error if quantity to large
+        assertThrows(Throwable.class, ()->parse("T#1001:10").actOn(underTest));
+
+        //Trade 600
+        parse("T#600:10").actOn(underTest);
+        //Volume on level 1.00 should now be 400
+        assertEquals(400, underTest.getSizeForPriceLevel(side, BigDecimal.ONE));
+
+        //Trade remaining
+        parse("T#400:10").actOn(underTest);
+        //Book should now be empty
+        assertEquals(0, underTest.getBookDepth(side));
 
     }
 }

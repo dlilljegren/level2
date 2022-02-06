@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import static java.lang.Math.round;
 import static lilljegren.Level2View.Side.ASK;
 import static lilljegren.Level2View.Side.BID;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * As we have two implementation we can create random operations on the OrderBook and just compare that both implementations return the same
@@ -40,18 +41,24 @@ public class RandomReplayTest {
             instruction.actOn(scalable);
         }).forEachOrdered( i->{
             //Do the tests
-            Assertions.assertEquals(compact.getBookDepth(BID), scalable.getBookDepth(BID));
-            Assertions.assertEquals(compact.getBookDepth(ASK), scalable.getBookDepth(ASK));
-            Assertions.assertEquals(compact.getTopOfBook(BID), scalable.getTopOfBook(BID));
-            Assertions.assertEquals(compact.getTopOfBook(ASK), scalable.getTopOfBook(ASK));
+            assertEquals(compact.getBookDepth(BID), scalable.getBookDepth(BID));
+            assertEquals(compact.getBookDepth(ASK), scalable.getBookDepth(ASK));
+            assertEquals(compact.getTopOfBook(BID), scalable.getTopOfBook(BID));
+            assertEquals(compact.getTopOfBook(ASK), scalable.getTopOfBook(ASK));
             //
             for(int px=0;px<9;px++) {
                 var price = BigDecimal.valueOf(px);
-                Assertions.assertEquals(compact.getSizeForPriceLevel(BID, price), scalable.getSizeForPriceLevel(BID, price));
-                Assertions.assertEquals(compact.getSizeForPriceLevel(ASK, price), scalable.getSizeForPriceLevel(ASK, price));
+                assertEquals(compact.getSizeForPriceLevel(BID, price), scalable.getSizeForPriceLevel(BID, price));
+                assertEquals(compact.getSizeForPriceLevel(ASK, price), scalable.getSizeForPriceLevel(ASK, price));
             }
 
         });
+
+        //Verify books are empty
+        assertEquals(0, scalable.getBookDepth(BID));
+        assertEquals(0, scalable.getBookDepth(ASK));
+        assertEquals(0, compact.getBookDepth(BID));
+        assertEquals(0, compact.getBookDepth(ASK));
     }
 
 
