@@ -2,11 +2,13 @@ package lilljegren;
 
 import lilljegren.compact.Level2ViewCompact;
 import lilljegren.scalable.Level2ViewScalable;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -19,9 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * As we have two implementation we can create random operations on the OrderBook and just compare that both implementations return the same
  */
 public class RandomReplayTest {
-    static Random R = new Random();
+    static Random R = new Random();//To make test deterministic we can add a seed here
 
-    int orderIdCounter = 1000;
 
     @Test
     public void compareCompactWithScalable(){

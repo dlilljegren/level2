@@ -3,7 +3,9 @@ package lilljegren.compact;
 import lilljegren.Level2View;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -45,10 +47,9 @@ public class Level2ViewCompact implements Level2View {
 
         var remaining = prevVersion.getQuantity()-quantity;
         assert remaining >=0 : "Can't trade more than quantity:"+quantity+">"+prevVersion.getQuantity();
-        if(remaining >0) {
+        if (remaining > 0) {
             onReplaceOrder(prevVersion.getPrice(), remaining, restingOrderId);//Re-use
-        }
-        else {//Can discuss the <
+        } else {//Can discuss the < 0 case
             onCancelOrder(restingOrderId);
         }
 

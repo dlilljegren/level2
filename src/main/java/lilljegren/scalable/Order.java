@@ -3,8 +3,6 @@ package lilljegren.scalable;
 import lilljegren.Level2View;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
