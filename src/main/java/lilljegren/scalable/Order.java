@@ -61,8 +61,10 @@ class Order {
     //As this class is only used in this package we can allow for this but one should be careful
     @Override
     public boolean equals(Object o){
-        assert o instanceof Order;
-        return ((Order)o).orderId == this.orderId;
+        if (o instanceof Order) {
+            return ((Order) o).orderId == this.orderId;
+        }
+        return false;
     }
     @Override
     public int hashCode(){
