@@ -66,7 +66,7 @@ public class RandomReplayTest {
         if(side.equals("A")){
             startPrice +=3;//5,6,7
         }
-        var startQty = (R.nextInt(9)+1)*1000;
+        var startQty = (R.nextInt(9)+1)*100;
         var replacePrice = R.nextBoolean() ? startPrice-1 : startPrice+1; // 1 to 8
         var replaceQty = round(startQty / 100.0 * R.nextInt(100) +50); //replace = start * [50% - 150%]
         var tradeQty = round(replaceQty * R.nextDouble());
@@ -76,19 +76,24 @@ public class RandomReplayTest {
         var tradeTemplate = "T#%d:%d";
         var cancelTemplate = "C#%d";
 
-        //Place events in order from 0 to maxTime
+        //Select 4 time slots between  0 and maxTime
         var times = new ArrayList<Integer>();
         for(int i=0;i<4;i++){
             times.add(R.nextInt(maxTime));
         }
         times.sort(Comparator.naturalOrder());
 
-        return List.of(
-                new TimedInstruction( Instruction.parse( String.format(newTemplate,side,startPrice,startQty,orderId)), times.get(0)-1),//-1 ensure init always first
-                new TimedInstruction( Instruction.parse( String.format(replaceTemplate,replacePrice,replaceQty,orderId)), times.get(1)),
-                new TimedInstruction( Instruction.parse( String.format(tradeTemplate,tradeQty,orderId)), times.get(2)),
-                new TimedInstruction( Instruction.parse( String.format(cancelTemplate,orderId)), times.get(3)+1)//+1 cancel always last
-        );
+        var instructions = new ArrayList<TimedInstruction>();
+        instructions.add(new TimedInstruction( Instruction.parse( String.format(newTemplate,side,startPrice,startQty,orderId)), times.get(0)-1));//-1 ensure init always first
+        instructions.add(new TimedInstruction( Instruction.parse( String.format(replaceTemplate,replacePrice,replaceQty,orderId)), times.get(1)));
+        instructions.add(new TimedInstruction( Instruction.parse( String.format(tradeTemplate,tradeQty,orderId)), times.get(2)));
+
+        //In case the trade took all the volume we should not cancel as we will get an error in this implementation
+        if(tradeQty != replaceQty){
+            instructions.add(new TimedInstruction( Instruction.parse( String.format(cancelTemplate,orderId)), times.get(3)+1));//+1 cancel always last
+        }
+        return instructions;
+
     }
 
     static class TimedInstruction{
