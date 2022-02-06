@@ -5,8 +5,16 @@ import lilljegren.Level2View;
 import java.math.BigDecimal;
 import java.util.*;
 
+/**
+ * <pre>
+ * Maintain the orders for a given side
+ * Orders are kept in a kind of MultiMap keyed on the price, with a set of orders ( keyed only on the order id )
+ * This makes it very easy to implement the get methods, but some extra care is required when adding and removing the orders
+ * </pre>
+ */
 class Page {
 
+    //Note as TreeMap use compare and not equals we can use BigDecimal as a key without having to worry about the scaling
     private final TreeMap<BigDecimal, Set<Order>> level2Order;
 
     Page(Level2View.Side side){
@@ -27,7 +35,7 @@ class Page {
         assert ordersOnLevel != null;
         ordersOnLevel.remove(order);
 
-        //If the removed order was the last we must remove the level from the TreeMap, to keep book depth simple
+        //If the removed order was the last we must remove the level from the TreeMap, in order to keep book depth simple
         if(ordersOnLevel.isEmpty()){
             level2Order.remove(order.getPrice());
         }

@@ -13,6 +13,8 @@ import java.util.*;
  * and another nested structure in the Page class keyed on the price level. Having many structures makes it hard to be thread safe, without excessive synchronization especially handling errors could become quite tricky
  * Still normally one would manage the threading so it's partitioned over the instruments associated with the books, single threaded almost always both faster and safer
  *
+ * Each side of the book is managed by an instance of the Page class
+ *
  * As with Compact there are no special handling of invalid arguments, they are just marked with asserts
  * </pre>
  */
