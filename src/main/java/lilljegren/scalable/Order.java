@@ -9,8 +9,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Order with special implementation of equals and hashcode suited for the Page's data structure
  */
-class Order {
-
+final class Order {
 
 
     private final Level2View.Side side;
