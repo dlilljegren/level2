@@ -10,12 +10,13 @@ import java.util.TreeSet;
 import static java.util.stream.Collectors.toCollection;
 
 /**
+ * <pre>
  * Simple implementation using a single Map, inserts and cancels are O(1) while queries are O(N)
  *
- * Edge cases are just marked with assertions, how to treat them would depend on the context.
- * If this component is called by code in the same module that would make the checks ( or simply ensuring consistency) then asserts may be sufficient ( especially if performance is important)
- * Otherwise either log or throw Exceptions ( e.g. IllegalArgumentException("Order with id=302 doesnt exist")
+ * Edge cases are just marked with assertions in this version
  *
+ * This implementation also serves to test the scalable implementation
+ * </pre>
  */
 public class Level2ViewCompact implements Level2View {
     //We assume single threaded otherwise use ConcurrentMap
