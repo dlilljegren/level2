@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
-class Order {
+final class Order {
 
     static Comparator<Order> BEST_BID = Comparator.comparing(Order::getPrice);//These need tests easy to confuse
     static Comparator<Order> BEST_ASK = Comparator.comparing(Order::getPrice).reversed();
