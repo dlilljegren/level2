@@ -35,6 +35,7 @@ public class RandomReplayTest {
                 .map(TimedInstruction::getInstruction);
 
         var compact = new Level2ViewCompact();
+        //var compact = new Level2ViewScalable(); //use this to see performance difference between compact and scalable
         var scalable = new Level2ViewScalable();
 
         instructions.peek( instruction ->{
